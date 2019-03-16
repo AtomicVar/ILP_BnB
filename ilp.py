@@ -40,7 +40,7 @@ class ILP():
                 continue
 
             # 若结果 x 中全为整数，则尝试更新全局下界、全局最优值和最优解
-            if all(list(map(lambda f: f.is_integer(), res.x))):
+            if all(list(map(lambda f: round(f, 7).is_integer(), res.x))):
                 if self.LOWER_BOUND < -res.fun:
                     self.LOWER_BOUND = -res.fun
 
@@ -55,7 +55,7 @@ class ILP():
                 # 寻找 x 中第一个不是整数的，取其下标 idx
                 idx = 0
                 for i, x in enumerate(res.x):
-                    if not x.is_integer():
+                    if not round(x, 7).is_integer():
                         break
                     idx += 1
 
@@ -119,6 +119,7 @@ def test2():
 
     print("Test 2's result:", solver.opt_val, solver.opt_x)
     print("Test 2's true optimal x: [2, 4]\n")
+
 
 if __name__ == '__main__':
     test1()
